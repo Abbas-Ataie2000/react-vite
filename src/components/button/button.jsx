@@ -1,20 +1,20 @@
 import PropTypes from "prop-types";
 
-export function Button({ label, onClick, disabled, size, ...rest }) {
+export function Button({ label, disabled, size, ...rest }) {
   const buttons = {
     xl: (
-      <button disabled={disabled} onClick={onClick} {...rest}>
-        {label} xl
+      <button disabled={disabled} {...rest}>
+        {label}
       </button>
     ),
     sm: (
-      <button disabled={disabled} onClick={onClick} {...rest}>
-        {label} sm
+      <button disabled={disabled} {...rest}>
+        {label}
       </button>
     ),
     lg: (
-      <button disabled={disabled} onClick={onClick} {...rest}>
-        {label} lg
+      <button disabled={disabled} {...rest}>
+        {label}
       </button>
     ),
   };
@@ -23,7 +23,6 @@ export function Button({ label, onClick, disabled, size, ...rest }) {
 
 Button.propTypes = {
   label: PropTypes.string.isRequired,
-  onClick: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
   size: PropTypes.oneOf(["xl", "lg", "sm"]),
 };
