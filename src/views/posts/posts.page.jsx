@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 function Posts() {
   const [isLoading, setIsLoading] = useState(false);
@@ -28,6 +29,7 @@ function Posts() {
 
   return (
     <div>
+      <Link to="/">Dashboard</Link>
       {posts?.map((post) => {
         return <h1 key={post.id}>{post.title}</h1>;
       })}

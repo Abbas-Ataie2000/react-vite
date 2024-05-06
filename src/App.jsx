@@ -1,72 +1,51 @@
-import { useForm } from "react-hook-form";
-import { Fragment, useEffect, useState } from "react";
-import { yupResolver } from "@hookform/resolvers/yup";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import { Button } from "./components/button/button";
-import { loginSchema } from "./schema/login.schema";
-// import Posts from "./views/posts/posts.page";
+import Posts from "./views/posts/posts.page";
+import Dashboard from "./views/dashboard/dashboard.page";
+import LoginPage from "./views/login/login.page";
+import RegisterPage from "./views/register/register.page";
+import IsAuthenticated from "./components/misc/is-authenticated";
+import { DashboardLayout } from "./components/layout/dashboard.layout";
+import { AuthLayout } from "./components/layout/auth.layout";
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: (
+      <IsAuthenticated>
+        <DashboardLayout>
+          <Dashboard />
+        </DashboardLayout>
+      </IsAuthenticated>
+    ),
+  },
+  {
+    path: "/posts",
+    element: (
+      <IsAuthenticated>
+        <DashboardLayout>
+          <Posts />
+        </DashboardLayout>
+      </IsAuthenticated>
+    ),
+  },
+  {
+    path: "/login",
+    element: (
+      <AuthLayout>
+        <LoginPage />
+      </AuthLayout>
+    ),
+  },
+  {
+    path: "/register",
+    element: (
+      <AuthLayout>
+        <RegisterPage />
+      </AuthLayout>
+    ),
+  },
+]);
 
 export function App() {
-  const [isLoading, setIsLoading] = useState(false);
-  const [email, setEmail] = useState();
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm({
-    resolver: yupResolver(loginSchema),
-  });
-
-  // on leave
-  useEffect(() => {
-    console.log("kdkdkdk");
-
-    return () => {
-      console.log("left the component");
-    };
-  }, [email]);
-
-  const onSubmit = async (data) => {
-    try {
-      console.log(data);
-      setIsLoading(true);
-      const apiData = await fetch("https://jsonplaceholder.typicode.com/post", {
-        method: "POST",
-        body: JSON.stringify({
-          userId: 1,
-          id: 1,
-          title: data.email,
-          body: data.password,
-        }),
-      })
-        .then((response) => response.json())
-        .then((json) => json);
-
-      if (apiData) {
-        reset();
-      }
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  return (
-    <Fragment>
-      <form onSubmit={handleSubmit((data) => onSubmit(data))}>
-        <input label="ABC" onChange={(e) => setEmail(e.target.value)} placeholder="Email" />
-        {errors.email && <p>{errors?.email?.message}</p>}
-        <br />
-        <input label="ABC" placeholder="Password" {...register("password")} />
-        {errors.password && <p>{errors.password?.message}</p>}
-        <br />
-        <Button disabled={isLoading} type="submit" size={"sm"} label="Submit"></Button>
-      </form>
-
-      <br />
-      {/* <Posts /> */}
-    </Fragment>
-  );
+  return <RouterProvider router={router} />;
 }
