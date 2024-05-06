@@ -2,8 +2,7 @@ import { Link } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import { useAuthStore } from "../../store/auth.store";
 function Dashboard() {
-  const { isLoggedIn, user, token, logout } = useAuthStore();
-  console.log({ isLoggedIn, user, token });
+  const { token, logout } = useAuthStore();
 
   return (
     <>

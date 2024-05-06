@@ -1,6 +1,6 @@
 import { Button } from "react-bootstrap";
-import { useAuthStore } from "../../store/auth.store";
 import { Navigate } from "react-router-dom";
+import { useAuthStore } from "../../store/auth.store";
 
 function LoginPage() {
   const { isLoggedIn, token, login } = useAuthStore();
